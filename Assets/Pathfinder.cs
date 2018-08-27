@@ -19,8 +19,8 @@ public class Pathfinder : MonoBehaviour
 
     private void SetStartAndFinishColors()
     {
-        startWaypoint.SetColorCubeTop(Color.green);
-        finishWaypoint.SetColorCubeTop(Color.red);
+        startWaypoint.SetColorCubeTop(Color.green);  //set starting color
+        finishWaypoint.SetColorCubeTop(Color.red);  //set finish color
     }
 
     private void LoadBlocks()
