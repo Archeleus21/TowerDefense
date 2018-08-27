@@ -129,7 +129,7 @@ GameObject:
   - component: {fileID: 23648775358163658}
   - component: {fileID: 102245510494914222}
   m_Layer: 0
-  m_Name: Label
+  m_Name: 0,0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -635,7 +635,7 @@ TextMesh:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1772369825333672}
-  m_Text: xx,xx
+  m_Text: 0,0
   m_OffsetZ: 0
   m_CharacterSize: 0.01
   m_LineSpacing: 1

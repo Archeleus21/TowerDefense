@@ -9,7 +9,7 @@ public class EnemyMovement : MonoBehaviour
     
     void Start()
     {
-        StartCoroutine(PrintAllWaypoints());  //must use StartCoroutine() in order to call methods / coroutines
+        //StartCoroutine(PrintAllWaypoints());  //must use StartCoroutine() in order to call methods / coroutines
     }
 
 	void Update()
