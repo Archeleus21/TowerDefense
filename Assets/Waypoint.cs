@@ -20,8 +20,8 @@ public class Waypoint : MonoBehaviour
 
     public Vector2Int GetGridPosition()
     {
-        return new Vector2Int(Mathf.RoundToInt(transform.position.x / gridSize) * gridSize, 
-                              Mathf.RoundToInt(transform.position.z / gridSize) * gridSize); 
+        return new Vector2Int(Mathf.RoundToInt(transform.position.x / gridSize), 
+                              Mathf.RoundToInt(transform.position.z / gridSize)); 
                               //creates a value, divides by 10 and rounds to nearest 
                               //whole number, then times 10 for unit movement
     }

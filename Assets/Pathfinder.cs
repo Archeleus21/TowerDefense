@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,22 +9,81 @@ public class Pathfinder : MonoBehaviour
     [SerializeField] Waypoint startWaypoint;
     [SerializeField] Waypoint finishWaypoint;
 
-    Dictionary<Vector2Int, Waypoint> grid = new Dictionary<Vector2Int, Waypoint>();
+    Dictionary<Vector2Int, Waypoint> grid = new Dictionary<Vector2Int, Waypoint>();  //creates a "dictionary"(datastructure)
+                                                                                     //to store grid points/waypoints
+    Queue<Waypoint> queue = new Queue<Waypoint>();  //creates empty queue
 
-	// Use this for initialization
-	void Start ()
+    bool isRunning = true;
+
+    //used to start to get coordinates around a waypoint in said directions
+    Vector2Int[] directions =
+    {
+        //new Vector2Int(0,1), //up
+        //new Vector2Int(1,0), //right
+        //new Vector2Int(0,-1), //down
+        //new Vector2Int(-1,0) //left
+        //same as this:
+        Vector2Int.up,
+        Vector2Int.right,
+        Vector2Int.down,
+        Vector2Int.left
+    };
+
+    // Use this for initialization
+    void Start ()
     {
         LoadBlocks();
         SetStartAndFinishColors();
+        Pathfind();
+        //ExploreNeighbors();
     }
 
-    private void SetStartAndFinishColors()
+    private void Pathfind()
+    {
+        queue.Enqueue(startWaypoint);
+
+        while (queue.Count > 0)
+        {
+            Waypoint searchCenter = queue.Dequeue();
+            print(searchCenter);
+            HaltIfEndFound(searchCenter);
+        }
+        print("Finished Pathfinding?");
+    }
+
+    private void HaltIfEndFound(Waypoint searchCenter)
+    {
+        if(searchCenter == finishWaypoint)
+        {
+            print("Found Finish Waypoint");
+            isRunning = false;
+        }
+    }
+
+    //uses the specified starting point and adds "directions" to waypoints to look at nearby blocks
+    private void ExploreNeighbors()
+    {
+        foreach (Vector2Int direction in directions)
+        {
+            Vector2Int lookAtNeighbors = startWaypoint.GetGridPosition() + direction;  //takes starting spot and adds "directions"
+            try
+            {
+                grid[lookAtNeighbors].SetColorCubeTop(Color.grey);  //sets color to nearby blocks
+            }
+            catch
+            {
+                //do nothing
+            }
+        }
+    }
+
+    private void SetStartAndFinishColors() //sets starting and finishing colors
     {
         startWaypoint.SetColorCubeTop(Color.green);  //set starting color
         finishWaypoint.SetColorCubeTop(Color.red);  //set finish color
     }
 
-    private void LoadBlocks()
+    private void LoadBlocks()  //loads waypoints into dictionary
     {
         Waypoint[] waypoints = FindObjectsOfType<Waypoint>();  //creates an array for the gridpoints/waypoints
 
