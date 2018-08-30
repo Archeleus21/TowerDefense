@@ -42,11 +42,14 @@ public class Pathfinder : MonoBehaviour
     {
         queue.Enqueue(startWaypoint);
 
-        while (queue.Count > 0)
+        while (queue.Count > 0 && isRunning)
         {
             Waypoint searchCenter = queue.Dequeue();
-            print(searchCenter);
+            print("Searching: " + searchCenter);
             HaltIfEndFound(searchCenter);
+
+            ExploreNeighbors(searchCenter);
+            searchCenter.isExplored = true;
         }
         print("Finished Pathfinding?");
     }
@@ -61,20 +64,40 @@ public class Pathfinder : MonoBehaviour
     }
 
     //uses the specified starting point and adds "directions" to waypoints to look at nearby blocks
-    private void ExploreNeighbors()
+    private void ExploreNeighbors(Waypoint from)
     {
+        if (!isRunning) { return; }
+         
         foreach (Vector2Int direction in directions)
         {
-            Vector2Int lookAtNeighbors = startWaypoint.GetGridPosition() + direction;  //takes starting spot and adds "directions"
+            Vector2Int lookAtNeighbors = from.GetGridPosition() + direction;  //takes starting spot and adds "directions"
             try
             {
-                grid[lookAtNeighbors].SetColorCubeTop(Color.grey);  //sets color to nearby blocks
+                QueueNewNeighbors(lookAtNeighbors);
             }
             catch
             {
                 //do nothing
             }
         }
+    }
+
+    private void QueueNewNeighbors(Vector2Int lookAtNeighbors)
+    {
+        Waypoint neighbor = grid[lookAtNeighbors];
+
+        if (neighbor.isExplored)
+        {
+            //do nothing
+        }
+        else
+        {
+            neighbor.SetColorCubeTop(Color.grey);  //sets color to nearby blocks
+            queue.Enqueue(neighbor);
+
+            print("queing: " + neighbor);
+        }
+
     }
 
     private void SetStartAndFinishColors() //sets starting and finishing colors
