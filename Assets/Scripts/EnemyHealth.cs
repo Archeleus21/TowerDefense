@@ -7,20 +7,23 @@ public class EnemyHealth : MonoBehaviour
 {
     [SerializeField] ParticleSystem bulletFX;
     [SerializeField] ParticleSystem deathFX;
+    [SerializeField] Light deathLightFX;
 
     [SerializeField] int health = 5;
 
+    float effectTimer;
     public bool isEnemyAlive;
 
-	// Use this for initialization
-	void Start ()
+    private void Awake()
     {
-        bulletFX = GetComponentInChildren<ParticleSystem>();
-        deathFX = GetComponentInChildren<ParticleSystem>();
-
-        AddNonTriggerBoxCollider();
         isEnemyAlive = true;
-	}
+    }
+
+    // Use this for initialization
+    void Start ()
+    {
+        AddNonTriggerBoxCollider();
+    }
 
     private void AddNonTriggerBoxCollider()
     {
@@ -33,20 +36,30 @@ public class EnemyHealth : MonoBehaviour
     // Update is called once per frame
     void Update ()
     {
+        effectTimer += Time.deltaTime;
         Death();
-		
 	}
 
     private void OnParticleCollision(GameObject other)
     {
         health--;
-        bulletFX.Play();
+        BulletFX();
+    }
+
+    void BulletFX()
+    {
+        ParticleSystem bulletFXGO = Instantiate(bulletFX, transform.position, Quaternion.identity);
+        bulletFXGO.Play();
+        Destroy(bulletFXGO.gameObject, 1f);
     }
 
     void DeathExplosion(Vector3 enemyPos)
     {
-        Instantiate(deathFX, transform.position, Quaternion.identity); //fix explosion
-
+        ParticleSystem deathFXGO = Instantiate(deathFX, transform.position, Quaternion.identity);
+        deathFXGO.Play();
+        effectTimer = 0;
+        deathLightFX.enabled = true;
+        Destroy(deathFXGO, 1f);
     }
 
     private void Death()
