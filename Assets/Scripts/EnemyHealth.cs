@@ -7,7 +7,7 @@ public class EnemyHealth : MonoBehaviour
 {
     [SerializeField] ParticleSystem bulletFX;
     [SerializeField] ParticleSystem deathFX;
-    [SerializeField] Light deathLightFX;
+    //[SerializeField] Light deathLightFX;
 
     [SerializeField] int health = 5;
 
@@ -58,7 +58,7 @@ public class EnemyHealth : MonoBehaviour
         ParticleSystem deathFXGO = Instantiate(deathFX, transform.position, Quaternion.identity);
         deathFXGO.Play();
         effectTimer = 0;
-        deathLightFX.enabled = true;
+        //deathLightFX.enabled = true;
         Destroy(deathFXGO, 1f);
     }
 

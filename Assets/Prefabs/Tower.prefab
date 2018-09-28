@@ -112,8 +112,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1299516418825544}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 10, y: 0, z: 30}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4147289636926852}
@@ -258,10 +258,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   partToPivot: {fileID: 4803681858751938}
-  targetEnemy: {fileID: 0}
   firePoint: {fileID: 4834291260411226}
   towerBullets: {fileID: 198917647048861908}
-  isShooting: 0
+  towerRange: 30
 --- !u!198 &198917647048861908
 ParticleSystem:
   m_ObjectHideFlags: 1
