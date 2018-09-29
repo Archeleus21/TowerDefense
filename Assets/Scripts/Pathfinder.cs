@@ -46,7 +46,6 @@ public class Pathfinder : MonoBehaviour
     private void CalculatePath()
     {
         LoadBlocks();
-        SetStartAndFinishColors();
         BreadthFirstSearch();
         CreatePath();
     }
@@ -56,14 +55,26 @@ public class Pathfinder : MonoBehaviour
         path.Add(finishWaypoint);  //adds finish waypoint to list
 
         Waypoint previous = finishWaypoint.exploredFrom;  //stores the previous block that led to the finish block
-        while(previous != startWaypoint)
+        while (previous != startWaypoint)
         {
             path.Add(previous);
             previous = previous.exploredFrom;
         }
 
+
         path.Add(startWaypoint);  //adds start waypoint to the end of the list
         path.Reverse();  //reverses the list
+
+        BlockPathFromBuilding();
+    }
+
+    //checks all waypoints that were added to the list and marks them as unbuildable
+    private void BlockPathFromBuilding()
+    {
+        foreach (Waypoint paths in path)
+        {
+            paths.isAbleToBuild = false;
+        }
     }
 
     private void BreadthFirstSearch()
@@ -116,12 +127,6 @@ public class Pathfinder : MonoBehaviour
             queue.Enqueue(neighbor);
             neighbor.exploredFrom = searchCenter;
         }
-    }
-
-    private void SetStartAndFinishColors() //sets starting and finishing colors
-    {
-        startWaypoint.SetColorCubeTop(Color.green);  //set starting color
-        finishWaypoint.SetColorCubeTop(Color.red);  //set finish color
     }
 
     private void LoadBlocks()  //loads waypoints into dictionary
