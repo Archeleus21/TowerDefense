@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Waypoint : MonoBehaviour
 {
-    TowerBuildManager tower;
+    TowerBuildManager towerBuildManager;
+    Waypoint baseWaypoint;
 
     [SerializeField] Color exploredColor;
 
@@ -19,13 +20,7 @@ public class Waypoint : MonoBehaviour
 
     private void Start()
     {
-        tower = GameObject.FindObjectOfType<TowerBuildManager>() as TowerBuildManager;
-    }
-
-    // Use this for initialization
-    void Update ()
-    {
-
+        towerBuildManager = FindObjectOfType<TowerBuildManager>() as TowerBuildManager;
     }
 	
     public int GetGridSize()  //public so other scripts can access this method/function
@@ -47,10 +42,9 @@ public class Waypoint : MonoBehaviour
         {
             if (isAbleToBuild)
             {
-                blockPos = gameObject.transform.position;
-                tower.PlaceATower(blockPos);
+                towerBuildManager.PlaceATower(this);
                 isAbleToBuild = false;
-                Debug.Log("Build Tower Here!");
+                Debug.Log("Build Tower Here!");             
             }
             else
             {

@@ -18,6 +18,12 @@ public class Pathfinder : MonoBehaviour
     bool isRunning = true;
 
     Waypoint searchCenter;  //current Search point
+    GameObject waypointParent;
+
+    private void Start()
+    {
+        waypointParent = GameObject.Find("Waypoints");
+    }
 
     //used to start to get coordinates around a waypoint in said directions
     Vector2Int[] directions =
@@ -60,7 +66,6 @@ public class Pathfinder : MonoBehaviour
             path.Add(previous);
             previous = previous.exploredFrom;
         }
-
 
         path.Add(startWaypoint);  //adds start waypoint to the end of the list
         path.Reverse();  //reverses the list
@@ -146,6 +151,8 @@ public class Pathfinder : MonoBehaviour
                 //add to dictionary if not
                 grid.Add(waypoint.GetGridPosition(), waypoint);  //add block to dictionary if not overlapping
             }
+
+            waypoint.transform.SetParent(waypointParent.transform, true);
         }
     }
 }

@@ -5,8 +5,11 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
+    GameObject effects;
+
     [SerializeField] ParticleSystem bulletFX;
     [SerializeField] ParticleSystem deathFX;
+    [SerializeField] ParticleSystem damageBaseFX;
     [SerializeField] int health = 5;
 
     public bool isEnemyAlive;
@@ -20,6 +23,7 @@ public class EnemyHealth : MonoBehaviour
     void Start ()
     {
         AddNonTriggerBoxCollider();
+        effects = GameObject.Find("Effects");
     }
 
     private void AddNonTriggerBoxCollider()
@@ -46,6 +50,7 @@ public class EnemyHealth : MonoBehaviour
     {
         ParticleSystem bulletFXGO = Instantiate(bulletFX, transform.position, Quaternion.identity);
         bulletFXGO.Play();
+        bulletFXGO.transform.SetParent(effects.transform, true);
         Destroy(bulletFXGO.gameObject, 1f);
     }
 
@@ -53,7 +58,16 @@ public class EnemyHealth : MonoBehaviour
     {
         ParticleSystem deathFXGO = Instantiate(deathFX, enemyPos, Quaternion.identity);
         deathFXGO.Play();
+        deathFXGO.transform.SetParent(effects.transform, true);
         Destroy(deathFXGO, 1f);
+    }
+
+    public void DamageBase(Vector3 enemyPos)
+    {
+        ParticleSystem damageBaseFXGO = Instantiate(damageBaseFX, enemyPos, Quaternion.identity, effects.transform);
+        damageBaseFXGO.Play();
+        Destroy(damageBaseFXGO, 1f);
+        Destroy(gameObject);
     }
 
     private void Death()

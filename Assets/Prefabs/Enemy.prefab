@@ -282,6 +282,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletFX: {fileID: 198129418902532038, guid: 5968344c5dd01bf469396adce3d68e07, type: 2}
   deathFX: {fileID: 198714579683964580, guid: 0ccbc4c6e423ca14c9d850ea7dfc91cd, type: 2}
+  damageBaseFX: {fileID: 198664073171988992, guid: 4f8414eb02dce664ea8b0d78e11520d6,
+    type: 2}
   health: 5
   isEnemyAlive: 1
 --- !u!114 &114458248242676382

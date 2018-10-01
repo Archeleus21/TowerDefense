@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Tower : MonoBehaviour
 {
+    EnemyHealth enemyHealth;
+    public Waypoint baseWaypoint;
 
     [SerializeField] Transform partToPivot;  //used to rotate top
     [SerializeField] Transform firePoint;  //firing position
@@ -21,6 +23,7 @@ public class Tower : MonoBehaviour
 
     private void Start()
     {
+        enemyHealth = FindObjectOfType<EnemyHealth>();
         towerBullets = GetComponentInChildren<ParticleSystem>();  //gets particlesystem
     }
 
@@ -59,7 +62,6 @@ public class Tower : MonoBehaviour
         }
 
         targetEnemy = nearestEnemy;
-
     }
 
     //finds closest enemy between multiple targets
@@ -75,7 +77,6 @@ public class Tower : MonoBehaviour
         }
 
         return enemyTargetB;
-
     }
 
     //used to check if enemy is in range
@@ -83,7 +84,10 @@ public class Tower : MonoBehaviour
     {
         //variable must be float in order for .magnitude to change the vectors to a floating number.
         //round to nearest int
-        enemyDistanceFromTower = (int)Mathf.RoundToInt((targetEnemy.transform.position - transform.position).magnitude);
+        if (enemyHealth.isEnemyAlive)
+        {
+            enemyDistanceFromTower = (int)Mathf.RoundToInt((targetEnemy.transform.position - transform.position).magnitude);
+        }
 
         if (enemyDistanceFromTower <= towerRange)
         {
