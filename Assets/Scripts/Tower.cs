@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Tower : MonoBehaviour
 {
+    SoundManager soundManager;
     EnemyHealth enemyHealth;
     public Waypoint baseWaypoint;
 
@@ -25,6 +26,7 @@ public class Tower : MonoBehaviour
     {
         enemyHealth = FindObjectOfType<EnemyHealth>();
         towerBullets = GetComponentInChildren<ParticleSystem>();  //gets particlesystem
+        soundManager = FindObjectOfType<SoundManager>() as SoundManager;
     }
 
     // Update is called once per frame
@@ -93,6 +95,7 @@ public class Tower : MonoBehaviour
         {
             partToPivot.LookAt(targetEnemy);  //used to track the enemy
             towerBullets.Play();  //shoot
+            soundManager.PlayTowerShootSound();
         }
         else
         {
@@ -106,4 +109,5 @@ public class Tower : MonoBehaviour
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, towerRange);
     }
+
 }

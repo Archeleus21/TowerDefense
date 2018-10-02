@@ -5,8 +5,10 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
+    SoundManager soundManager;
     GameObject effects;
 
+    [SerializeField] GameObject enemyParent;
     [SerializeField] ParticleSystem bulletFX;
     [SerializeField] ParticleSystem deathFX;
     [SerializeField] ParticleSystem damageBaseFX;
@@ -22,16 +24,8 @@ public class EnemyHealth : MonoBehaviour
     // Use this for initialization
     void Start ()
     {
-        AddNonTriggerBoxCollider();
         effects = GameObject.Find("Effects");
-    }
-
-    private void AddNonTriggerBoxCollider()
-    {
-        Collider boxCollider = gameObject.AddComponent<BoxCollider>();
-        boxCollider.GetComponent<BoxCollider>().size = new Vector3(7, 7, 7);
-        boxCollider.GetComponent<BoxCollider>().center = new Vector3(0, 6.5f, 0);
-        boxCollider.isTrigger = false;
+        soundManager = FindObjectOfType<SoundManager>() as SoundManager;
     }
 
     // Update is called once per frame
@@ -56,6 +50,7 @@ public class EnemyHealth : MonoBehaviour
 
     void DeathExplosion(Vector3 enemyPos)
     {
+        soundManager.PlayEnemyDeathSound();
         ParticleSystem deathFXGO = Instantiate(deathFX, enemyPos, Quaternion.identity);
         deathFXGO.Play();
         deathFXGO.transform.SetParent(effects.transform, true);
@@ -64,6 +59,8 @@ public class EnemyHealth : MonoBehaviour
 
     public void DamageBase(Vector3 enemyPos)
     {
+        soundManager.PlayEnemyBaseDamageSound();
+
         ParticleSystem damageBaseFXGO = Instantiate(damageBaseFX, enemyPos, Quaternion.identity, effects.transform);
         damageBaseFXGO.Play();
         Destroy(damageBaseFXGO, 1f);
@@ -76,7 +73,7 @@ public class EnemyHealth : MonoBehaviour
         {
             isEnemyAlive = false;
             DeathExplosion(new Vector3 (transform.position.x, transform.position.y + 5, transform.position.z));
-            Destroy(gameObject);
+            Destroy(enemyParent);
         }
         else
         {

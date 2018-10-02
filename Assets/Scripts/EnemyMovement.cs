@@ -26,8 +26,12 @@ public class EnemyMovement : MonoBehaviour
         foreach (Waypoint cubeWaypoint in path)
         {
             transform.position = cubeWaypoint.transform.position;
+            //if(enemyHealth.GetIsEnemyAlive() == false)
+            //{
+            //    Destroy(gameObject);
+            //}
             yield return new WaitForSeconds(1f);
         }
-        enemyHealth.DamageBase(new Vector3(transform.position.x, transform.position.y + 5, transform.position.z)); 
+        enemyHealth.DamageBase(new Vector3(transform.position.x, transform.position.y + 10, transform.position.z)); 
     }
 }
